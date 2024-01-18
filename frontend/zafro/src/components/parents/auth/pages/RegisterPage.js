@@ -22,7 +22,7 @@ const RegisterPage = (props) => {
           style={{ height: `calc(100vh - ${props.appBarHeightSignedOut}px)`, backgroundColor: '' }}
         >
           
-          <Grid item xs={12} style={{ backgroundColor: "#FAFAFA", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Grid item xs={12} style={{ backgroundColor: "", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 
             <RegisterForm />
           </Grid>

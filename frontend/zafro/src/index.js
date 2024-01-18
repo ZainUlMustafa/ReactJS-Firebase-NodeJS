@@ -85,7 +85,7 @@ root.render(
       <AuthIsLoaded>
         <PersistGate persistor={persistor}>
           <BrowserRouter>
-            <div className='App-SignedIn' style={{backgroundColor: ''}}>
+            <div style={{backgroundColor: ''}}>
               <App />
             </div>
           </BrowserRouter>

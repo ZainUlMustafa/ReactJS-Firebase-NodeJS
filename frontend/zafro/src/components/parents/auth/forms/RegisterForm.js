@@ -103,13 +103,13 @@ function RegisterForm(props) {
 
   const handleSubmit = (e) => {
     if (values.fullName.length == 0) {
-      setErrorMsg("Please enter the Full name.");
+      setErrorMsg("Please enter the full name.");
     } else if (values.email.length == 0) {
       setErrorMsg("Please enter a valid email.");
     } else if (values.orgName.length == 0) {
-      setErrorMsg("Please enter the Organization name.");
+      setErrorMsg("Please enter the organization name.");
     } else if (values.password.length < 6) {
-      setErrorMsg("Password must be atleast 6 characters.");
+      setErrorMsg("Password must be at least 6 characters.");
     }
     else if (values.countryName.length == 0) {
       setErrorMsg("Please select your country name.");
@@ -152,6 +152,7 @@ function RegisterForm(props) {
     <Button
       style={styles.tryForFreeButton}
       variant="contained"
+      size="small"
       sx={{ textTransform: 'inherit' }}
       onClick={handleSubmit}
 

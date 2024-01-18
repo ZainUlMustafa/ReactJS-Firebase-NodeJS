@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import * as ROUTES from "../../../../../../constants/routes";
 import Divider from '@mui/material/Divider';
 import Box from "@mui/material/Box";
+
 const ProfileInfo = (props) => {
   // README: isProjectDashbaorad is passed from topbar to make avatar green.
   const { userData, themeRed, isProjectDashboard } = props;
