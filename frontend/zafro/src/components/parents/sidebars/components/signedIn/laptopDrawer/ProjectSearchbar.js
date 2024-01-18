@@ -30,7 +30,7 @@ const searchMenuBackgroundColorTheme = createTheme({
 
 const ProjectSearchbar = forwardRef((props,ref) => {
   const { Child, isSignedIn, isEmailVerified, allProjects, themeRed } = props;
-  const { appTitle, themeColor } = themeRed;
+  const { themeColor } = themeRed;
 
   const useStyles = makeStyles({
     searchBar: {

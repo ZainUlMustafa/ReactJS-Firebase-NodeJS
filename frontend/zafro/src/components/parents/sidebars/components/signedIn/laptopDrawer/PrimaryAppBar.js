@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import ProfileInfo from "./ProfileInfo";
 import { useLocation } from "react-router-dom";
 import newlogo from "../../../../../../assets/logo/logo.svg";
+import RELEASE_NOTES from '../../../../../../constants/releaseNotes.json'
 
 
 const PrimaryAppBar = (props) => {
@@ -17,7 +18,7 @@ const PrimaryAppBar = (props) => {
   const appBarRef = useRef(null);
 
   const { Child, isSignedIn, isEmailVerified, themeRed, proid, companyData } = props;
-  const { themeColor, appTitle } = themeRed;
+  const { themeColor } = themeRed;
   return (
     <>
       <AppBar ref={appBarRef}
@@ -54,7 +55,7 @@ const PrimaryAppBar = (props) => {
               component="div"
               sx={{ display: { xs: "none", sm: "block" }, color: '#1e1e1e', fontSize: '18px', fontWeight: 'bold' }}
             >
-              {appTitle}
+              {RELEASE_NOTES.appName}
             </Typography>
           </Link>
           <Box sx={{ flexGrow: 1 }} />

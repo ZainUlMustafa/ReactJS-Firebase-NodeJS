@@ -12,10 +12,10 @@ import Divider from '@mui/material/Divider';
 import Box from "@mui/material/Box";
 const ProfileInfo = (props) => {
   // README: isProjectDashbaorad is passed from topbar to make avatar green.
-  const { userData, themeRed,isProjectDashboard } = props;
+  const { userData, themeRed, isProjectDashboard } = props;
   // console.log(userData, "u")
   const { name, email, nameInitial, uid, coid } = userData;
-  const { appTitle, themeColor } = themeRed;
+  const { themeColor } = themeRed;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -29,20 +29,24 @@ const ProfileInfo = (props) => {
   function stringAvatar(name) {
     return {
       sx: {
-        bgcolor: isProjectDashboard?'#1b1c1a':'#1F0851',
+        bgcolor: isProjectDashboard ? '#1b1c1a' : '#1F0851',
         width: 35, height: 35,
         fontSize: 16,
       },
       children: name,
     };
   }
+
+  // console.log(userData)
   return (
     <>
       {/* <Box> */}
-      <IconButton onClick={handleClick} sx={{':hover': {
-                      backgroundColor: 'transparent'
-                    }}}>
-        <Box sx={{ backgroundColor: themeColor, borderRadius: "20px",  }}>
+      <IconButton onClick={handleClick} sx={{
+        ':hover': {
+          backgroundColor: 'transparent'
+        }
+      }}>
+        <Box sx={{ backgroundColor: themeColor, borderRadius: "20px", }}>
           <Avatar {...stringAvatar(nameInitial)} />
         </Box>
       </IconButton>
@@ -98,8 +102,7 @@ const ProfileInfo = (props) => {
         </Box> */}
 
 
-        <Divider light />
-
+        <Divider />
         <Box sx={{ padding: '10px', color: 'darkred', fontWeight: 'bolder', cursor: 'pointer', '&:hover': { textDecoration: 'underline' } }} onClick={() => props.signOut()}>
           Sign out
         </Box>

@@ -22,47 +22,7 @@ const HomeDashboard = (props) => {
   return (
     <div style={{ backgroundColor: '', height: '100vh' }}>
       <Grid container>
-        {/* <Grid item xs={2} sx={{ backgroundColor: '', height: '100vh' }}>
-
-        </Grid> */}
-
-        <Grid item xs={8} sx={{ overflow: 'auto', height: '100vh' }}>
-          <Toolbar />
-          <div style={{ padding: '40px 90px' }}>
-            <div style={{ diplay: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-              <Typography variant='h5' sx={{ fontWeight: 'bold', fontSize: '18px' }}>
-                Reservoir levels
-              </Typography>
-              <div style={{ padding: '30px 0px' }}>
-                <SensorSection sensorsData={sensorsData} />
-              </div>
-            </div>
-          </div>
-        </Grid>
-
-        <Grid item xs={4} sx={{ overflow: 'auto', height: '100vh' }}>
-          <Toolbar />
-          <div style={{ padding: '40px 20px' }}>
-            <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>
-              Gate statuses
-            </Typography>
-            <hr />
-            <WaterGatesStatus sensorsData={sensorsData} />
-            <div style={{padding: '20px'}}></div>
-            <Typography sx={{ fontWeight: 'bold', fontSize: '15px' }}>
-              Realtime logs
-            </Typography>
-            <div style={{padding: '5px'}}></div>
-            {/* <hr/> */}
-            <LogViewer logs={props.sensorLogs} />
-          </div>
-        </Grid>
       </Grid>
-      {/* <Container maxWidth="xl">
-        <Toolbar />
-
-        <SensorSection sensorsData={sensorsData}/>
-      </Container> */}
     </div>
   )
 }
