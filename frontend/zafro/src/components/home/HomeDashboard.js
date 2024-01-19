@@ -3,15 +3,21 @@ import { connect } from "react-redux";
 import { Container, Toolbar, Grid, Typography } from '@mui/material';
 import LogViewer from '../cidgets/LogViewer';
 import { get } from "lodash";
+import FriendsList from './components/FriendsList';
+import AddFriend from './components/AddFriend';
 
 const HomeDashboard = (props) => {
-  const {friendsData, writeChecksData} = props;
+  const { friendsData, writeChecksData } = props;
   console.log(friendsData, writeChecksData)
+  const listOfFriends = Object.values(friendsData?.list ?? {})
   return (
     <div style={{ backgroundColor: '', height: '100vh' }}>
-      <Grid container sx={{paddingTop: "100px", paddingInline: '20px'}}>
-        {JSON.stringify(friendsData)}
-      </Grid>
+      <Container sx={{ paddingTop: "100px", paddingInline: '20px' }}>
+        {/* {JSON.stringify(listOfFriends)} */}
+        <AddFriend/>
+        <br/>
+        <FriendsList listOfFriends={listOfFriends} />
+      </Container>
     </div>
   )
 }
