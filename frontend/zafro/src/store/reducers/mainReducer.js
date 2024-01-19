@@ -21,7 +21,7 @@ const mainReducer = combineReducers({
   firestore: firestoreReducer,
   themeRed: themeReducer,
   appControl: appControlReducer,
-  apiReducer: apiReducer,
+  apiControl: apiReducer,
 });
 
 export default persistReducer(persistConfig, mainReducer);

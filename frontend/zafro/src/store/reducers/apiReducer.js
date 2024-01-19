@@ -1,6 +1,6 @@
 const initState = {
-    addFriendLoader: false,
-    remFriendLoader: false,
+    addFriendLoader: "",
+    remFriendLoader: "",
 }
 
 const apiReducer = (state = initState, action) => {
@@ -9,35 +9,35 @@ const apiReducer = (state = initState, action) => {
     if (action.type === 'ADD_FRIEND_CALL_INIT') {
         return {
             ...state,
-            addFriendLoader: true
+            addFriendLoader: action.identifier
         }
     } else if (action.type === 'ADD_FRIEND_CALL_DONE') {
         return {
             ...state,
-            addFriendLoader: false
+            addFriendLoader: ""
         }
 
     } else if (action.type === 'ADD_FRIEND_CALL_FAILED') {
         return {
             ...state,
-            addFriendLoader: false
+            addFriendLoader: ""
         }
 
     } else if (action.type === 'REM_FRIEND_CALL_INIT') {
         return {
             ...state,
-            remFriendLoader: true
+            remFriendLoader: action.identifier
         }
     } else if (action.type === 'REM_FRIEND_CALL_DONE') {
         return {
             ...state,
-            remFriendLoader: false
+            remFriendLoader: ""
         }
 
     } else if (action.type === 'REM_FRIEND_CALL_FAILED') {
         return {
             ...state,
-            remFriendLoader: false
+            remFriendLoader: ""
         }
 
     }

@@ -10,7 +10,7 @@ const FriendsList = ({ uid="", listOfFriends = [] }) => {
         <>
             <p>Friends ({listOfFriends.length})</p>
             <List dense sx={{ width: '100%', bgcolor: 'background.paper' }}>
-                {listOfFriends.map((eachFriend) => {
+                {listOfFriends.sort((a,b) => a.name - b.name).map((eachFriend) => {
                     return (
                         <FriendCard key={eachFriend.id} eachFriend={eachFriend} uid={uid}/>
                     )

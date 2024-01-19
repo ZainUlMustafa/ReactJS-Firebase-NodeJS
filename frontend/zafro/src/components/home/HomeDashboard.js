@@ -13,7 +13,6 @@ const HomeDashboard = (props) => {
   return (
     <div style={{ backgroundColor: '', height: '100vh' }}>
       <Container sx={{ paddingTop: "100px", paddingInline: '20px' }}>
-        {/* {JSON.stringify(listOfFriends)} */}
         <AddFriend />
         <br />
         <FriendsList listOfFriends={listOfFriends} uid={userData?.uid ?? ""} />

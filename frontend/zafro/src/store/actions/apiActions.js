@@ -6,6 +6,7 @@ export const addFriend = (name) => {
         /// dispatch to indicate initiation of request
         dispatch({
             type: "ADD_FRIEND_CALL_INIT",
+            identifier: name
         });
         await cloudFunction.httpsCallable('friendMgm-addFriendOnCall')(
             {
@@ -57,6 +58,7 @@ export const removeFriend = (friendId) => {
         /// dispatch to indicate initiation of request
         dispatch({
             type: "REM_FRIEND_CALL_INIT",
+            identifier: friendId
         });
         await cloudFunction.httpsCallable('friendMgm-removeFriendOnCall')(
             {

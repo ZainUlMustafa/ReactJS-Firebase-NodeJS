@@ -5,7 +5,7 @@ import { addFriendPicture, removeFriend } from '../../../store/actions/apiAction
 
 const FriendCard = (props) => {
     const { name, id, dp } = props.eachFriend
-    const { uid } = props
+    const { uid, apiControl } = props
 
     const handleRemove = () => {
         props.removeFriend(id)
@@ -38,12 +38,21 @@ const FriendCard = (props) => {
             key={id}
             secondaryAction={
                 <>
-                    <Button variant="contained" color="primary" size='small' onClick={(e) => handleAttachPicture()}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size='small'
+                        onClick={(e) => handleAttachPicture()}>
                         Upload picture
                     </Button>
                     <span style={{ padding: '10px' }}></span>
-                    <Button variant="outlined" color="error" size='small' onClick={(e) => { handleRemove() }}>
-                        Remove
+                    <Button
+                        variant="outlined"
+                        color="error"
+                        size='small'
+                        disabled={apiControl.remFriendLoader === id}
+                        onClick={(e) => { handleRemove() }}>
+                        {apiControl.remFriendLoader === id ? "Removing..." : "Remove"}
                     </Button>
                 </>
             }
@@ -64,7 +73,7 @@ const FriendCard = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-
+        apiControl: state.apiControl,
     }
 }
 const mapDispatchToProps = (dispatch) => {

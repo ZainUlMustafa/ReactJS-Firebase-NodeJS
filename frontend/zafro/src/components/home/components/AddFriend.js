@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { addFriend } from '../../../store/actions/apiActions'
 
 const AddFriend = (props) => {
+    const { apiControl } = props
     const [name, setName] = useState('');
     const [error, setError] = useState('');
 
@@ -29,6 +30,7 @@ const AddFriend = (props) => {
                 size='small'
                 label="Name"
                 variant="outlined"
+                disabled={apiControl.addFriendLoader.length > 0}
                 fullWidth
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -40,9 +42,10 @@ const AddFriend = (props) => {
                 type="submit"
                 variant="contained"
                 color="primary"
+                disabled={apiControl.addFriendLoader.length > 0}
                 style={{ marginTop: '10px' }}
             >
-                Add friend
+                {apiControl.addFriendLoader.length > 0 ? "Adding..." : "Add friend"}
             </Button>
         </form>
     );
@@ -50,7 +53,7 @@ const AddFriend = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-
+        apiControl: state.apiControl,
     }
 }
 const mapDispatchToProps = (dispatch) => {
