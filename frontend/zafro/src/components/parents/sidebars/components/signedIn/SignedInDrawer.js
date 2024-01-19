@@ -41,23 +41,9 @@ export default compose(
     const { userData } = props;
     return [
       {
-        collection: "Configurations",
-        doc: "OutputPredictions",
-        storeAs: "OutputPredictions",
-      },
-      {
-        collection: "SensorsData",
-        storeAs: "SensorsData",
-      },
-      {
-        collection: "Configurations",
-        doc: "Charges",
-        storeAs: "Charges",
-      },
-      {
-        collection: "Companies",
-        storeAs: "Company",
-        doc: `${userData.coid}`,
+        collection: "Friends",
+        doc: userData.uid,
+        storeAs: "Friends",
       },
       {
         collection: "Notifications",
@@ -67,12 +53,10 @@ export default compose(
     ];
   }),
   firebaseConnect((props) => {
-    // const project = props;
-    // const proid =
-    //   project !== undefined ? (project.proid ? project.proid : "-1") : "-1";
+    const { userData } = props;
 
     return [
-      `/logs`
+      `/WriteChecks/${userData?.uid}`
     ]
   }),
 )(SignedInDrawer);
