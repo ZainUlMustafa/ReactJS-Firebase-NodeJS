@@ -7,7 +7,7 @@ export const addFriend = (name) => {
         dispatch({
             type: "ADD_FRIEND_CALL_INIT",
         });
-        await cloudFunction.httpsCallable('friendMgm-addFriend')(
+        await cloudFunction.httpsCallable('friendMgm-addFriendOnCall')(
             {
                 "friend": name
 
@@ -32,7 +32,7 @@ export const removeFriend = (friendId) => {
         dispatch({
             type: "REM_FRIEND_CALL_INIT",
         });
-        await cloudFunction.httpsCallable('friendMgm-removeFriend')(
+        await cloudFunction.httpsCallable('friendMgm-removeFriendOnCall')(
             {
                 "friendId": friendId
 

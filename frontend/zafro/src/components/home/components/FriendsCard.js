@@ -8,7 +8,7 @@ const FriendCard = (props) => {
 
     const handleRemove = (friendId) => {
         console.log(friendId)
-        // props.removeFriend(friendId)
+        props.removeFriend(friendId)
     }
 
     return (

@@ -6,7 +6,7 @@ import storage from "redux-persist/lib/storage";
 import authReducer from "./authReducer";
 import themeReducer from "./themeReducer";
 import appControlReducer from "./appControlReducer";
-// import datastoreReducer from './datastoreReducer';
+import apiReducer from "./apiReducer";
 
 const persistConfig = {
   key: "boilerroot",
@@ -16,18 +16,12 @@ const persistConfig = {
 };
 
 const mainReducer = combineReducers({
-  // APP CONTROL AN AUTH
   auth: authReducer,
-
-  // FIREBASE
   firebase: firebaseReducer,
   firestore: firestoreReducer,
-
-  // THEME
   themeRed: themeReducer,
-
-  // APP CONTROL
   appControl: appControlReducer,
+  apiReducer: apiReducer,
 });
 
 export default persistReducer(persistConfig, mainReducer);
