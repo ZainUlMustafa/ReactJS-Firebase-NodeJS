@@ -2,7 +2,7 @@ import { Avatar, Button, List, ListItem, ListItemAvatar, ListItemButton, ListIte
 import React from 'react'
 import FriendCard from './FriendsCard'
 
-const FriendsList = ({ listOfFriends = [] }) => {
+const FriendsList = ({ uid="", listOfFriends = [] }) => {
     if (listOfFriends.length === 0) {
         return <p>No friends added</p>
     }
@@ -12,7 +12,7 @@ const FriendsList = ({ listOfFriends = [] }) => {
             <List dense sx={{ width: '100%', bgcolor: 'background.paper' }}>
                 {listOfFriends.map((eachFriend) => {
                     return (
-                        <FriendCard key={eachFriend.id} eachFriend={eachFriend}/>
+                        <FriendCard key={eachFriend.id} eachFriend={eachFriend} uid={uid}/>
                     )
                 })}
             </List>

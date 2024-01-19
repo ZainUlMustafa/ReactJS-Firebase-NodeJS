@@ -1,14 +1,36 @@
 import { Avatar, Button, List, ListItem, ListItemAvatar, ListItemButton, ListItemText } from '@mui/material'
 import React from 'react'
 import { connect } from 'react-redux'
-import { removeFriend } from '../../../store/actions/apiActions'
+import { addFriendPicture, removeFriend } from '../../../store/actions/apiActions'
 
 const FriendCard = (props) => {
     const { name, id, dp } = props.eachFriend
+    const { uid } = props
 
-    const handleRemove = (friendId) => {
-        console.log(friendId)
-        props.removeFriend(friendId)
+    const handleRemove = () => {
+        props.removeFriend(id)
+    }
+
+    const handleAttachPicture = async () => {
+        try {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.click();
+
+            input.addEventListener('change', async (event) => {
+                const file = event.target.files[0];
+                console.log(`Attaching picture for item with id: ${id}`, file);
+
+                props.addFriendPicture(uid, props.eachFriend, file)
+            });
+        } catch (error) {
+            console.error('Error attaching picture:', error);
+        }
+    };
+
+    if ((uid ?? "").length === 0) {
+        return <>Error</>
     }
 
     return (
@@ -16,11 +38,11 @@ const FriendCard = (props) => {
             key={id}
             secondaryAction={
                 <>
-                    <Button variant="contained" color="primary" size='small'>
+                    <Button variant="contained" color="primary" size='small' onClick={(e) => handleAttachPicture()}>
                         Upload picture
                     </Button>
                     <span style={{ padding: '10px' }}></span>
-                    <Button variant="outlined" color="error" size='small' onClick={(e) => { handleRemove(id) }}>
+                    <Button variant="outlined" color="error" size='small' onClick={(e) => { handleRemove() }}>
                         Remove
                     </Button>
                 </>
@@ -48,6 +70,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         removeFriend: (friendId) => dispatch(removeFriend(friendId)),
+        addFriendPicture: (uid, friendId, picture) => dispatch(addFriendPicture(uid, friendId, picture))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FriendCard);

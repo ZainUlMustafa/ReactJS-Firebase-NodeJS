@@ -7,16 +7,16 @@ import FriendsList from './components/FriendsList';
 import AddFriend from './components/AddFriend';
 
 const HomeDashboard = (props) => {
-  const { friendsData, writeChecksData } = props;
+  const { friendsData, writeChecksData, userData } = props;
   console.log(friendsData, writeChecksData)
   const listOfFriends = Object.values(friendsData?.list ?? {})
   return (
     <div style={{ backgroundColor: '', height: '100vh' }}>
       <Container sx={{ paddingTop: "100px", paddingInline: '20px' }}>
         {/* {JSON.stringify(listOfFriends)} */}
-        <AddFriend/>
-        <br/>
-        <FriendsList listOfFriends={listOfFriends} />
+        <AddFriend />
+        <br />
+        <FriendsList listOfFriends={listOfFriends} uid={userData?.uid ?? ""} />
       </Container>
     </div>
   )

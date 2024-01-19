@@ -19,6 +19,7 @@ const AddFriend = (props) => {
             console.log('Submitted Name:', name);
             addFriend(name)
             setError('');
+            setName('')
         }
     };
 
