@@ -1,6 +1,7 @@
 const initState = {
     addFriendLoader: "",
     remFriendLoader: "",
+    dpFriendLoader: "",
 }
 
 const apiReducer = (state = initState, action) => {
@@ -39,7 +40,22 @@ const apiReducer = (state = initState, action) => {
             ...state,
             remFriendLoader: ""
         }
+    } else if (action.type === 'ADD_PICTURE_CALL_INIT') {
+        return {
+            ...state,
+            dpFriendLoader: action.identifier
+        }
+    } else if (action.type === 'ADD_PICTURE_CALL_DONE') {
+        return {
+            ...state,
+            dpFriendLoader: ""
+        }
 
+    } else if (action.type === 'ADD_PICTURE_CALL_FAILED') {
+        return {
+            ...state,
+            dpFriendLoader: ""
+        }
     }
 
     return state;

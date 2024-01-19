@@ -32,6 +32,7 @@ export const addFriendPicture = (uid, friendObject, picture) => {
         /// dispatch to indicate initiation of request
         dispatch({
             type: "ADD_PICTURE_CALL_INIT",
+            identifier: friendObject.id
         });
 
         var reference = `Users/${uid}/Friends/${friendObject.id}_image.png`;
@@ -47,6 +48,15 @@ export const addFriendPicture = (uid, friendObject, picture) => {
                     ...friendObject,
                     dp: downloadURL
                 }
+            });
+
+            dispatch({
+                type: "ADD_PICTURE_CALL_DONE",
+            });
+        }).catch(async (error) => {
+            console.error(error);
+            dispatch({
+                type: "ADD_PICTURE_CALL_FAILED",
             });
         });
     }

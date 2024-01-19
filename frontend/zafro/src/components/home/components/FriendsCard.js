@@ -42,8 +42,9 @@ const FriendCard = (props) => {
                         variant="contained"
                         color="primary"
                         size='small'
+                        disabled={apiControl.dpFriendLoader === id}
                         onClick={(e) => handleAttachPicture()}>
-                        Upload picture
+                        {apiControl.dpFriendLoader === id ? "Uploading..." : "Upload picture"}
                     </Button>
                     <span style={{ padding: '10px' }}></span>
                     <Button
@@ -61,11 +62,12 @@ const FriendCard = (props) => {
             <ListItemButton>
                 <ListItemAvatar>
                     <Avatar
+                        sx={{ width: '50px', height: '50px' }}
                         alt={`${name}`}
                         src={`${dp}`}
                     />
                 </ListItemAvatar>
-                <ListItemText id={id} primary={`${name}`} secondary={`ID: ${id}`} />
+                <ListItemText sx={{paddingInline: '15px'}} id={id} primary={`${name}`} secondary={`ID: ${id}`} />
             </ListItemButton>
         </ListItem>
     )
