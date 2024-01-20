@@ -1,6 +1,9 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const db = admin.firestore();
+const gcs = admin.storage();
+
+const bucket = gcs.bucket('iamzaboiler.appspot.com');
 
 const runtimeOpts = {
     timeoutSeconds: 300,
@@ -10,22 +13,8 @@ const runtimeOpts = {
 const DB_NAME = `https://iamzaboiler-default-rtdb.firebaseio.com/`
 const dbInstance = admin.app().database(DB_NAME)
 
+// for testing purposes only (e.g. postman)
 exports.addFriend = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
-    // const { data, auth } = request
-    // if (isBlank(auth)) {
-    //     return returnObject({
-    //         responseMsg: "Not authorized",
-    //         isDoneAndSent: false
-    //     })
-    // }
-
-    // if (isBlank(data)) {
-    //     return returnObject({
-    //         responseMsg: "No data found",
-    //         isDoneAndSent: false
-    //     })
-    // }
-
     const { friend, uid } = req.query;
 
     if (isBlank(uid) || isBlank(friend)) {
@@ -70,66 +59,6 @@ exports.addFriend = functions.runWith(runtimeOpts).https.onRequest(async (req, r
     }, res)
 });
 
-exports.addFriendOnCall = functions.runWith(runtimeOpts).https.onCall(async (data, context) => {
-    if (isBlank(context.auth)) {
-        return returnObject({
-            responseMsg: "Not authorized",
-            isDoneAndSent: false
-        })
-    }
-
-    if (isBlank(data)) {
-        return returnObject({
-            responseMsg: "No data found",
-            isDoneAndSent: false
-        })
-    }
-
-    const uid = context.auth.uid
-    const { friend } = data;
-
-    if (isBlank(uid) || isBlank(friend)) {
-        return returnObject({
-            responseMsg: "No data found",
-            isDoneAndSent: false
-        })
-    }
-
-    const rtdbFriendsCheck = await getDataFromRtdb_selfCheck(DB_NAME, `WriteChecks/${uid}`)
-
-    const friendIds = Object.keys(rtdbFriendsCheck.m ?? {})
-    const friendsOjects = Object.values(rtdbFriendsCheck.m ?? {})
-    const duplicateName = friendsOjects.some((eachFriend) => eachFriend.friend === friend)
-
-    const friendId = generateUniqueId(friendIds)
-    if (isBlank(friendId)) {
-        return returnObject({
-            responseMsg: "Failed to generate ID for friend",
-            isDoneAndSent: false
-        })
-    }
-
-    await db.collection("Friends").doc(uid).set({}, { merge: true });
-
-    // adding the friend to the firestore
-    const writeCheck = await db.collection("Friends").doc(uid).update({
-        [`list.${friendId}`]: {
-            name: friend,
-            id: friendId
-        }
-    });
-
-    // adding the write check to rtdb
-    await dbInstance.ref(`WriteChecks/${uid}`).update({
-        [`${friendId}`]: { ...writeCheck, friend, friendId }
-    })
-
-    return returnObject({
-        responseMsg: `${rtdbFriendsCheck.b ? "Friend" : "First ever friend"} added successfully${duplicateName ? " but a duplicate entry was found in history" : ""}. ID: ${friendId}`,
-        isDoneAndSent: true,
-    })
-});
-
 exports.removeFriend = functions.runWith(runtimeOpts).https.onRequest(async (req, res) => {
     const { friendId, uid } = req.query;
 
@@ -168,6 +97,70 @@ exports.removeFriend = functions.runWith(runtimeOpts).https.onRequest(async (req
         isDoneAndSent: true
     }, res)
 })
+
+
+// Production ready
+exports.addFriendOnCall = functions.runWith(runtimeOpts).https.onCall(async (data, context) => {
+    if (isBlank(context.auth)) {
+        return returnObject({
+            responseMsg: "Not authorized",
+            isDoneAndSent: false
+        })
+    }
+
+    if (isBlank(data)) {
+        return returnObject({
+            responseMsg: "No data found",
+            isDoneAndSent: false
+        })
+    }
+
+    const uid = context.auth.uid
+    const { friendObject } = data;
+
+    if (isBlank(uid) || isBlank(friendObject)) {
+        return returnObject({
+            responseMsg: "No data found",
+            isDoneAndSent: false
+        })
+    }
+
+    const rtdbFriendsCheck = await getDataFromRtdb_selfCheck(DB_NAME, `WriteChecks/${uid}`)
+
+    const friendIds = Object.keys(rtdbFriendsCheck.m ?? {})
+    const friendsOjects = Object.values(rtdbFriendsCheck.m ?? {})
+    const duplicateName = friendsOjects.some((eachFriend) => eachFriend.friend === friendObject.friend)
+
+    const friendId = generateUniqueId(friendIds)
+    if (isBlank(friendId)) {
+        return returnObject({
+            responseMsg: "Failed to generate ID for friend",
+            isDoneAndSent: false
+        })
+    }
+
+    await db.collection("Friends").doc(uid).set({}, { merge: true });
+
+    // adding the friend to the firestore
+    const writeCheck = await db.collection("Friends").doc(uid).update({
+        [`list.${friendId}`]: {
+            name: friendObject.friend,
+            description: friendObject.description,
+            id: friendId,
+            dateCreated: admin.firestore.FieldValue.serverTimestamp() 
+        }
+    });
+
+    // adding the write check to rtdb
+    await dbInstance.ref(`WriteChecks/${uid}`).update({
+        [`${friendId}`]: { ...writeCheck, friend: friendObject.friend, friendId }
+    })
+
+    return returnObject({
+        responseMsg: `${rtdbFriendsCheck.b ? "Friend" : "First ever friend"} added successfully${duplicateName ? " but a duplicate entry was found in history" : ""}. ID: ${friendId}`,
+        isDoneAndSent: true,
+    })
+});
 
 exports.removeFriendOnCall = functions.runWith(runtimeOpts).https.onCall(async (data, context) => {
     if (isBlank(context.auth)) {
@@ -216,6 +209,8 @@ exports.removeFriendOnCall = functions.runWith(runtimeOpts).https.onCall(async (
     const writeCheck = await db.collection("Friends").doc(uid).update({
         [`list.${friendId}`]: admin.firestore.FieldValue.delete()
     });
+
+    await bucket.file(`Users/${uid}/Friends/${friendObject.id}_image.png`).delete()
 
     return returnObject({
         responseMsg: `Removed ${friendObject.name} from friends`,

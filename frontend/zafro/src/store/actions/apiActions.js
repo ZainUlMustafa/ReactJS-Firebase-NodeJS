@@ -1,16 +1,16 @@
 import { storage, cloudFunction } from '../../config/firebaseConfig';
 
-export const addFriend = (name) => {
+export const addFriend = (friendObject) => {
     return async (dispatch, getState, { getFirebase, getFirestore }) => {
         const firestore = getFirestore();
         /// dispatch to indicate initiation of request
         dispatch({
             type: "ADD_FRIEND_CALL_INIT",
-            identifier: name
+            identifier: friendObject.friend
         });
         await cloudFunction.httpsCallable('friendMgm-addFriendOnCall')(
             {
-                "friend": name
+                "friendObject": friendObject
 
             })
             .then(async (res) => {

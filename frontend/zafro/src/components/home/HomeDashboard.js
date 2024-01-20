@@ -15,6 +15,8 @@ const HomeDashboard = (props) => {
       <Container sx={{ paddingTop: "100px", paddingInline: '20px' }}>
         <AddFriend />
         <br />
+        <hr />
+        <br />
         <FriendsList listOfFriends={listOfFriends} uid={userData?.uid ?? ""} />
       </Container>
     </div>

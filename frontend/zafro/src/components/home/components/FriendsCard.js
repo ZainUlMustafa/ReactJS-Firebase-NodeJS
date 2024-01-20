@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { addFriendPicture, removeFriend } from '../../../store/actions/apiActions'
 
 const FriendCard = (props) => {
-    const { name, id, dp } = props.eachFriend
+    const { name, id, dp, description } = props.eachFriend
     const { uid, apiControl } = props
 
     const handleRemove = () => {
@@ -67,7 +67,7 @@ const FriendCard = (props) => {
                         src={`${dp}`}
                     />
                 </ListItemAvatar>
-                <ListItemText sx={{paddingInline: '15px'}} id={id} primary={`${name}`} secondary={`ID: ${id}`} />
+                <ListItemText sx={{paddingInline: '15px'}} id={id} primary={`${name}`} secondary={`${description??"No description"} (ID: ${id})`} />
             </ListItemButton>
         </ListItem>
     )

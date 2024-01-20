@@ -6,22 +6,39 @@ import { addFriend } from '../../../store/actions/apiActions'
 const AddFriend = (props) => {
     const { apiControl } = props
     const [name, setName] = useState('');
-    const [error, setError] = useState('');
+    const [description, setDescription] = useState('');
 
-    const addFriend = (name) => {
-        props.addFriend(name)
+    const [nameError, setNameError] = useState('');
+    const [descriptionError, setDescriptionError] = useState('');
+
+    const addFriend = (friendObject) => {
+        props.addFriend(friendObject)
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
         if (name.trim() === '') {
-            setError('Name cannot be empty');
+            setNameError('Name cannot be empty');
+            return;
         } else {
-            console.log('Submitted Name:', name);
-            addFriend(name)
-            setError('');
-            setName('')
+            setNameError('');
         }
+
+        if (description.trim() === '') {
+            setDescriptionError('Description cannot be empty');
+            return;
+        } else {
+            setDescriptionError('');
+        }
+
+        console.log('Submitted Name:', name);
+        console.log('Submitted Description:', description);
+
+        addFriend({ friend: name, description })
+
+        setName('');
+        setDescription('');
     };
 
     return (
@@ -34,8 +51,19 @@ const AddFriend = (props) => {
                 fullWidth
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                error={Boolean(error)}
-                helperText={error}
+                error={Boolean(nameError)}
+                helperText={nameError}
+            />
+            <TextField
+                sx={{ marginTop: '10px' }}
+                size='small'
+                label="Description"
+                variant="outlined"
+                fullWidth
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                error={Boolean(descriptionError)}
+                helperText={descriptionError}
             />
             <Button
                 size='small'
@@ -58,7 +86,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        addFriend: (name) => dispatch(addFriend(name)),
+        addFriend: (friendObject) => dispatch(addFriend(friendObject)),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AddFriend);
