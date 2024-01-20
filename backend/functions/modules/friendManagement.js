@@ -210,7 +210,12 @@ exports.removeFriendOnCall = functions.runWith(runtimeOpts).https.onCall(async (
         [`list.${friendId}`]: admin.firestore.FieldValue.delete()
     });
 
-    await bucket.file(`Users/${uid}/Friends/${friendObject.id}_image.png`).delete()
+    // delete the dp from the storage
+    try {
+        await bucket.file(`Users/${uid}/Friends/${friendObject.id}_image.png`).delete()
+    } catch (err) {
+        functions.logger.info("Picture may not be found")
+    }
 
     return returnObject({
         responseMsg: `Removed ${friendObject.name} from friends`,
@@ -218,6 +223,7 @@ exports.removeFriendOnCall = functions.runWith(runtimeOpts).https.onCall(async (
     })
 })
 
+// logging the changes under notification collection
 exports.notifyUserOnFriendChange = functions.runWith(runtimeOpts).firestore.document('Friends/{uid}').onUpdate(async (change, context) => {
     const { uid } = context.params
 
